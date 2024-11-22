@@ -48,17 +48,15 @@ jobs:
         arguments: build
       env:
         VERSION: ${{ steps.version.outputs.result }}
+    - uses: actions/upload-artifact@v4
+      with:
+        name: build
+        path: build/libs/*.jar
     - name: Publish
       id: publish
       if: ${{ steps.version.outputs.result != 'alpha' && success() }}
       uses: Kir-Antipov/mc-publish@v3.3
       with:
-        modrinth-id: JaCEZUhg
-        modrinth-token: ${{ secrets.MODRINTH_API_KEY }}
-
-        curseforge-id: 302973
-        curseforge-token: ${{ secrets.CURSEFORGE_API_KEY }}
-
         github-tag: ${{ github.ref }}
         github-draft: true
         github-prerelease: false
